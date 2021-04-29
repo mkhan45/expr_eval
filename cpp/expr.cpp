@@ -13,6 +13,7 @@ struct OhNo {};
 class Expr {
     public:
         virtual int eval() const { throw OhNo{}; };
+        virtual ~Expr() = default;
 };
 
 class AtomicExpr : public Expr {
@@ -51,4 +52,5 @@ class BinaryExpr : public Expr {
 int main() {
     const Expr* e = new BinaryExpr(Mul, new AtomicExpr(5), new BinaryExpr(Add, new AtomicExpr(3), new AtomicExpr(1)));
     std::cout << e->eval() << std::endl;
+    delete e;
 }

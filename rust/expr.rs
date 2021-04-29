@@ -5,16 +5,16 @@ enum BinOp {
     Div,
 }
 
-enum Expr {
+enum Expr<'a> {
     AtomicExpr { val: isize },
     BinaryExpr {
         op: BinOp,
-        lhs: Box<Expr>,
-        rhs: Box<Expr>,
+        lhs: &'a Expr<'a>,
+        rhs: &'a Expr<'a>,
     },
 }
 
-impl Expr {
+impl<'a> Expr<'a> {
     fn eval(&self) -> isize {
         use Expr::*;
 
@@ -33,12 +33,12 @@ impl Expr {
 fn main() {
     let expr = Expr::BinaryExpr {
         op: BinOp::Add,
-        lhs: Box::new(Expr::AtomicExpr { val: 5 }),
-        rhs: Box::new(Expr::BinaryExpr {
+        lhs: &Expr::AtomicExpr { val: 5 },
+        rhs: &Expr::BinaryExpr {
             op: BinOp::Mul,
-            lhs: Box::new(Expr::AtomicExpr { val: 12 }),
-            rhs: Box::new(Expr::AtomicExpr { val: 4 }),
-        }),
+            lhs: &Expr::AtomicExpr { val: 12 },
+            rhs: &Expr::AtomicExpr { val: 4 },
+        },
     };
 
     println!("{}", expr.eval());
