@@ -1,12 +1,10 @@
 defmodule Expr do
     def eval(expr) do
         case expr do
-            {op, lhs, rhs} -> case op do
-                :add -> eval(lhs) + eval(rhs)
-                :sub -> eval(lhs) - eval(rhs)
-                :mul -> eval(lhs) * eval(rhs)
-                :div -> eval(lhs) / eval(rhs)
-            end
+            {:add, lhs, rhs} -> eval(lhs) + eval(rhs)
+            {:sub, lhs, rhs} -> eval(lhs) - eval(rhs)
+            {:mul, lhs, rhs} -> eval(lhs) * eval(rhs)
+            {:div, lhs, rhs} -> eval(lhs) / eval(rhs)
             n -> n
         end
     end
